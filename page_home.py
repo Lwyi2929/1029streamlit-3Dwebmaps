@@ -13,5 +13,6 @@ st.write(f"正在播放影片： {video_url}")
 st.video(video_url)
 
 # 直接將 照片的 URL 傳給 st.image()
+st.write("下面是一張可愛小孩的照片：")
 image_url = "可愛小孩.jpg"
 st.image(image_url)
