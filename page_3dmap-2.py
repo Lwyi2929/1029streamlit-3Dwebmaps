@@ -84,8 +84,8 @@ fig = go.Figure(
 # (此處與您原本的程式碼相同)
 fig.update_layout(
     title="蘭嶼地形高程圖 (已修正資料格式)",
-    width=600,
-    height=500,
+    width=900,
+    height=700,
     scene=dict(
         xaxis_title='經度 (X)',
         yaxis_title='緯度 (Y)',
