@@ -19,7 +19,7 @@ fig = px.scatter_geo(
     df,
     locations="iso_alpha",  # 國家代碼
     color="continent",      # 依據大陸洲別上色
-    hover_name="country",   # 滑鼠懸停時顯示國家名稱
+    hover_name="country",   # 滑)鼠懸停時顯示國家名稱
     size="pop",             # 點的大小代表人口數
 
     # *** 關鍵：使用 "orthographic" 投影法來建立 3D 地球儀 ***
@@ -36,13 +36,11 @@ st.plotly_chart(fig, use_container_width=True)
 # 並強制讓圖表的寬度自動延展，以填滿其所在的 Streamlit 容器 (例如，主頁面的寬度、某個欄位 (column) 的寬度，
 # 或是一個展開器 (expander) 的寬度)。
 
-st.title("Plotly 3D 地圖 (網格 - DEM 表面)")
-
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-st.title("Plotly 3D 地圖 (網格 - DEM 表面)")
+st.title("Plotly 3D 地圖 (網格 - DTM 表面)")
 
 # --- 1. 讀取並轉換 DEM 資料 ---
 z_raw_data = pd.read_csv("Lanyuu.csv")
