@@ -20,7 +20,7 @@ fig = px.scatter_geo(
     locations="iso_alpha",  # 國家代碼
     color="continent",      # 依據大陸洲別上色
     hover_name="country",   # 滑)鼠懸停時顯示國家名稱
-    size="pop",             # 點的大小代表人口數
+    size="gdpPercap",             # 點的大小代表人口數
 
     # *** 關鍵：使用 "orthographic" 投影法來建立 3D 地球儀 ***
     projection="orthographic"
