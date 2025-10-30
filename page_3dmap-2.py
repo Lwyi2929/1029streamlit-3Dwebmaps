@@ -41,7 +41,7 @@ st.title("Plotly 3D 地圖 (網格 - DEM 表面)")
 # --- 1. 讀取範例 DEM 資料 ---
 # Plotly 內建的 "volcano" (火山) DEM 數據 (儲存為 CSV)
 # 這是一個 2D 陣列 (Grid)，每個格子的值就是海拔
-z_data = pd.read_csv("nantou.csv")
+z_data = pd.read_csv("lanyu.csv")
 
 # --- 2. 建立 3D Surface 圖 ---
 # 建立一個 Plotly 的 Figure 物件，它是所有圖表元素的容器
@@ -69,7 +69,7 @@ fig = go.Figure(
 # 使用 update_layout 方法來修改圖表的整體佈局和外觀設定
 fig.update_layout(
     # 設定圖表的標題文字
-    title="南投地形高程圖 (可旋轉)",
+    title="蘭嶼地形高程圖 (可旋轉)",
 
     # 設定圖表的寬度和高度 (單位：像素)
     width=800,
