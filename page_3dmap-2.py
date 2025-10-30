@@ -38,56 +38,60 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.title("Plotly 3D 地圖 (網格 - DEM 表面)")
 
-# --- 1. 讀取範例 DEM 資料 ---
-# Plotly 內建的 "volcano" (火山) DEM 數據 (儲存為 CSV)
-# 這是一個 2D 陣列 (Grid)，每個格子的值就是海拔
-z_data = pd.read_csv("Lanyuu.csv")
+import pandas as pd
+import plotly.graph_objects as go
+import streamlit as st
+
+st.title("Plotly 3D 地圖 (網格 - DEM 表面)")
+
+# --- 1. 讀取並轉換 DEM 資料 ---
+z_raw_data = pd.read_csv("Lanyuu.csv")
+
+# *** 關鍵轉換步驟：將點狀資料轉換為 2D 網格矩陣 ***
+# 1. 使用 pivot 函式將 DataFrame 重塑為網格。
+#    - index: 緯度 (Y 軸)
+#    - columns: 經度 (X 軸)
+#    - values: 海拔 (Z 值)
+z_data_grid = z_raw_data.pivot(
+    index='POINT_Y', 
+    columns='POINT_X', 
+    values='grid_code'
+)
+
+# 2. 提取網格數據作為 Z 參數
+z_values = z_data_grid.values
+# 3. 提取 X 和 Y 軸的唯一值列表 (用於 Plotly 的 x 和 y 參數，可選，但更準確)
+x_coords = z_data_grid.columns.values
+y_coords = z_data_grid.index.values
+
 
 # --- 2. 建立 3D Surface 圖 ---
-# 建立一個 Plotly 的 Figure 物件，它是所有圖表元素的容器
 fig = go.Figure(
-    # data 參數接收一個包含所有 "trace" (圖形軌跡) 的列表。
-    # 每個 trace 定義了一組數據以及如何繪製它。
     data=[
-        # 建立一個 Surface (曲面) trace
         go.Surface(
-            # *** 關鍵參數：z ***
-            # z 參數需要一個 2D 陣列 (或列表的列表)，代表在 X-Y 平面上每個點的高度值。
-            # z_data.values 會提取 pandas DataFrame 底層的 NumPy 2D 陣列。
-            # Plotly 會根據這個 2D 陣列的結構來繪製 3D 曲面。
-            z=z_data.values,
-
-            # colorscale 參數指定用於根據 z 值 (高度) 對曲面進行著色的顏色映射方案。
-            # "Viridis" 是 Plotly 提供的一個常用且視覺效果良好的顏色漸層。
-            # 高度值較低和較高的點會有不同的顏色。
+            # *** 修正後的關鍵參數：z ***
+            z=z_values,
+            # (可選) 增加 x 和 y 參數，讓座標軸標籤更準確地顯示經緯度
+            x=x_coords,
+            y=y_coords, 
+            
             colorscale="Viridis"
         )
-    ] # data 列表結束
+    ]
 )
 
 # --- 3. 調整 3D 視角和外觀 ---
-# 使用 update_layout 方法來修改圖表的整體佈局和外觀設定
+# (此處與您原本的程式碼相同)
 fig.update_layout(
-    # 設定圖表的標題文字
-    title="蘭嶼地形高程圖 (可旋轉)",
-
-    # 設定圖表的寬度和高度 (單位：像素)
+    title="蘭嶼地形高程圖 (已修正資料格式)",
     width=800,
     height=700,
-
-    # scene 參數是一個字典，用於配置 3D 圖表的場景 (座標軸、攝影機視角等)
     scene=dict(
-        # 設定 X, Y, Z 座標軸的標籤文字
         xaxis_title='經度 (X)',
         yaxis_title='緯度 (Y)',
         zaxis_title='海拔 (Z)'
-        # 可以在 scene 字典中加入更多參數來控制攝影機初始位置、座標軸範圍等
     )
 )
-
-# 這段程式碼執行後，變數 `fig` 將包含一個設定好的 3D Surface Plotly 圖表物件。
-# 你可以接著使用 fig.show() 或 st.plotly_chart(fig) 將其顯示出來。
-# 這個圖表通常是互動式的，允許使用者用滑鼠旋轉、縮放和平移 3D 視角。
 
 # --- 4. 在 Streamlit 中顯示 ---
 st.plotly_chart(fig)
